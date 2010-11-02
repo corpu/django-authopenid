@@ -2,7 +2,10 @@ django-authopenid NOTICE
 ========================
 
 Core software:
- * Copyright 2007, 2008 Benoit Chesneau <bchesneau@gmail.com>
+
+ * Copyright 2010 Alexander A. Sosnovskiy <alecs.box@gmail.com>
 
 Based on: 
+
+ * django-authopenid, Copyright 2007, 2010 Benoit Chesneau <bchesneau@gmail.com>
  * django-openid, Copyright 2007 Simon Willison
