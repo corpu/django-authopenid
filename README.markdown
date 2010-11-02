@@ -1,8 +1,8 @@
-# django-authopenid #
+# django-authopenid 
 
-Author : Alexander A. Sosnovskiy <alecs.box@gmail.com>
-Url : [django-authopenid](http://www.github.com/BlindHunter/django-authopenid/ "django-authopenid")
-License: Apache License 2
+Author : Alexander A. Sosnovskiy <alecs.box@gmail.com>  
+Url : [django-authopenid](http://www.github.com/BlindHunter/django-authopenid/ "django-authopenid")  
+License: Apache License 2  
 
 * * *
 
