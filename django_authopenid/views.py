@@ -218,8 +218,8 @@ def signin_failure(request, message, template_name='authopenid/signin.html',
     """
     return render(template_name, {
         'msg': message,
-        'form1': openid_form(),
-        'form2': auth_form(),
+        'openidform': openid_form(),
+        'authform': auth_form(),
         redirect_field_name: request.REQUEST.get(redirect_field_name, '')
     }, context_instance=_build_context(request, extra_context))
 
@@ -247,34 +247,34 @@ def signin(request, template_name='authopenid/signin.html',
         on_failure = signin_failure
         
     redirect_to = request.REQUEST.get(redirect_field_name, '')
-    form1 = openid_form()
-    form2 = auth_form()
+    openidform = openid_form()
+    authform = auth_form()
     if request.POST:
         if not redirect_to or '//' in redirect_to or ' ' in redirect_to:
             redirect_to = settings.LOGIN_REDIRECT_URL     
         if 'openid_url' in request.POST.keys():
-            form1 = openid_form(data=request.POST)
-            if form1.is_valid():
+            openidform = openid_form(data=request.POST)
+            if openidform.is_valid():
                 redirect_url = "%s%s?%s" % (
                         get_url_host(request),
                         reverse('user_complete_signin'), 
                         urllib.urlencode({ redirect_field_name: redirect_to })
                 )
                 return ask_openid(request, 
-                        form1.cleaned_data['openid_url'], 
+                        openidform.cleaned_data['openid_url'], 
                         redirect_url, 
                         on_failure=on_failure)
         else:
             # perform normal django authentification
-            form2 = auth_form(data=request.POST)
-            if form2.is_valid():
-                login(request, form2.get_user())
+            authform = auth_form(data=request.POST)
+            if authform.is_valid():
+                login(request, authform.get_user())
                 if request.session.test_cookie_worked():
                     request.session.delete_test_cookie()
                 return HttpResponseRedirect(redirect_to)
     return render(template_name, {
-        'form1': form1,
-        'form2': form2,
+        'openidform': openidform,
+        'authform': authform,
         redirect_field_name: redirect_to,
         'msg':  request.GET.get('msg','')
     }, context_instance=_build_context(request, extra_context=extra_context))
@@ -372,11 +372,11 @@ def register(request, template_name='authopenid/complete.html',
             email = openid_.ax.get('http://schema.openid.net/contact/email')[0]
         
     
-    form1 = register_form(initial={
+    openidform = register_form(initial={
         'username': nickname,
         'email': email,
     }) 
-    form2 = auth_form(initial={ 
+    authform = auth_form(initial={ 
         'username': nickname,
     })
     
@@ -385,13 +385,13 @@ def register(request, template_name='authopenid/complete.html',
         if not redirect_to or '//' in redirect_to or ' ' in redirect_to:
             redirect_to = settings.LOGIN_REDIRECT_URL
         if 'email' in request.POST.keys():
-            form1 = register_form(data=request.POST)
-            if form1.is_valid():
-                user_ = register_account(form1, openid_)
+            openidform = register_form(data=request.POST)
+            if openidform.is_valid():
+                user_ = register_account(openidform, openid_)
         else:
-            form2 = auth_form(data=request.POST)
-            if form2.is_valid():
-                user_ = form2.get_user()
+            authform = auth_form(data=request.POST)
+            if authform.is_valid():
+                user_ = authform.get_user()
         if user_ is not None:
             # associate the user to openid
             uassoc = UserAssociation(
@@ -403,8 +403,8 @@ def register(request, template_name='authopenid/complete.html',
             return HttpResponseRedirect(redirect_to) 
     
     return render(template_name, {
-        'form1': form1,
-        'form2': form2,
+        'openidform': openidform,
+        'authform': authform,
         redirect_field_name: redirect_to,
         'nickname': nickname,
         'email': email

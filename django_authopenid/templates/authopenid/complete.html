@@ -15,23 +15,23 @@
             <p>If you're joining <strong>Sitename</strong>, associate your OpenID with a new account. If you're already a member, associate with your existing account.</p>
         {% endblocktrans %}
     </div>      
-    {% if form1.errors %}
+    {% if openidform.errors %}
         <p class="errors">{% trans "Please correct errors below:" %}<br />
-            {% if form1.username.errors %} 
-                <span class="error">{{ form1.username.errors|join:", " }}</span>
+            {% if openidform.username.errors %} 
+                <span class="error">{{ openidform.username.errors|join:", " }}</span>
             {% endif %}
-            {% if form1.email.errors %} 
-                <span class="error">{{ form1.email.errors|join:", " }}</span>
+            {% if openidform.email.errors %} 
+                <span class="error">{{ openidform.email.errors|join:", " }}</span>
             {% endif %}
         </p>
     {% endif %}
-    {% if form2.errors %}
+    {% if authform.errors %}
         <p class="errors">{% trans "Please correct errors below:" %}<br />
-            {% if form2.username.errors %} 
-                <span class="error">{{ form2.username.errors|join:", " }}</span>
+            {% if authform.username.errors %} 
+                <span class="error">{{ authform.username.errors|join:", " }}</span>
             {% endif %}
-            {% if form2.password.errors %} 
-                <span class="error">{{ form2.password.errors|join:", " }}</span>
+            {% if authform.password.errors %} 
+                <span class="error">{{ authform.password.errors|join:", " }}</span>
             {% endif %}
         </p>
     {% endif %}
@@ -42,8 +42,8 @@
             <input type="hidden" name="next" value="{{ next }}" />
                 <fieldset>
                     <legend>{% trans "A new account" %}</legend>
-                    <div class="form-row"><label for="id_username">{% trans "Username" %}</label><br />{{ form1.username }}</div>
-                    <div class="form-row"><label for="id_email">{% trans "Email" %}</label><br />{{ form1.email }}</div>
+                    <div class="form-row"><label for="id_username">{% trans "Username" %}</label><br />{{ openidform.username }}</div>
+                    <div class="form-row"><label for="id_email">{% trans "Email" %}</label><br />{{ openidform.email }}</div>
                     <div class="submit-row"><input type="submit" name="bnewaccount" value="{% trans "Create account" %}"></div>
                     <hr class="clear" />
                 </fieldset>
@@ -56,8 +56,8 @@
             <input type="hidden" name="next" value="{{ next }}" />
                 <fieldset>
                     <legend>{% trans "An existing account" %}</legend>
-                    <div class="form-row"><label for="id_username">{% trans "Username" %}</label><br />{{ form2.username }}</div>
-                    <div class="form-row"><label for="id_passwordl">{% trans "Password" %}</label><br />{{ form2.password }}</div>
+                    <div class="form-row"><label for="id_username">{% trans "Username" %}</label><br />{{ authform.username }}</div>
+                    <div class="form-row"><label for="id_passwordl">{% trans "Password" %}</label><br />{{ authform.password }}</div>
                     <div class="submit-row"><input type="submit" name="bverify" value="{% trans "Verify" %}"></div>
                 </fieldset>
         </form>
